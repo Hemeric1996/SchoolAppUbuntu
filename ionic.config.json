@@ -1,0 +1,8 @@
+{
+  "name": "SchoolAppUbuntu",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "pro_id": "afc2ad3b"
+}
