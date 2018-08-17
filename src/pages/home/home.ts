@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+
 /**
  * Generated class for the HomePage page.
  *
@@ -21,5 +22,14 @@ export class HomePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad HomePage');
   }
+
+  doRefresh(refresher) {
+   console.log('Begin async operation', refresher);
+
+   setTimeout(() => {
+     console.log('Async operation has ended');
+     refresher.complete();
+   }, 2000);
+ }
 
 }

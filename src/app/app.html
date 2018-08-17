@@ -1,5 +1,5 @@
-<ion-menu type="overlay" [content]="mycontent" padding side="right">
-  <ion-content (ionchange)="activePage()" *ngIf="!connected">
+<ion-menu type="overlay" [content]="mycontent" padding side="right" (ionChange)="activePage()">
+  <ion-content *ngIf="!connected">
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -22,11 +22,29 @@
         </ion-item>
       </ion-row>
       <ion-row padding justify-content-center align-items-start>
-        <button ion-button color="secondary" outline (click)='login(email, password)'>Login</button>
+        <button ion-button color="secondary" outline (tap)='login(email, password)'>Login</button>
       </ion-row>
     </ion-grid>
   </ion-content>
-  <ion-content (ionchange)="activePage()" *ngIf="connected">
+  <ion-content *ngIf="connected">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid>
+      <ion-row fixed justify-content-center align-items-start>
+          <h1>Profil</h1>
+      </ion-row>
+      <ion-row fixed justify-content-center align-items-start>
+        <ion-img src="../assets/imgs/logoschool.png" style="border-radius:50%;height:150px;width:150px;"></ion-img>
+      </ion-row>
+      <ion-row padding fixed justify-content-center align-items-start>
+        <button ion-button color="secondary" outline (tap)='logout();'>Logout</button>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+</ion-menu>
+<ion-menu type="overlay" [content]="mycontent" padding side="right" (ionChange)="activePage()">
+  <ion-content *ngIf="connected">
     <ion-refresher (ionRefresh)="doRefresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>

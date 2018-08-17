@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, NavController, NavParams, ToastController } from 'ionic-angular';
+import { Platform, NavController, NavParams, ToastController, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { MenuController } from 'ionic-angular';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -20,7 +20,7 @@ import {LoginPage} from '../pages/login/login';
 export class MyApp {
    @ViewChild('mycontent') nav: NavController;
 
-  rootPage: any = LoginPage;
+  public rootPage: string = "LoginPage";
   public connected: boolean = false;
 
   pages: Array<{title: string, component: any}>;
@@ -45,21 +45,23 @@ export class MyApp {
       this.splashScreen.hide();
       this.angularFireAuth.auth.onAuthStateChanged(function(user){
         if (user) {
-          this.nav.setRoot(HomePage);
+          this.rootPage = "HomePage";
         }else{
-          this.nav.setRoot(LoginPage);
+          this.rootPage = "LoginPage";
         }
       });
     });
   }
 
   activePage(){
-  console.log("Tu es dans la fonction " +this.connected);
   console.log(this.nav);
   if(this.nav.getActive().component.name == "HomePage") {
-      this.connected = true;
-  }else{
-    this.connected = false;
+      // this.connected = true;
+      console.log("Tu es dans la fonction et connected est " +this.connected);
+  };
+  if(this.nav.getActive().component.name !== "HomePage"){
+    // this.connected = false;
+    console.log("Tu es dans la fonction et connected est " +this.connected);
   };
 }
 
@@ -81,14 +83,16 @@ export class MyApp {
         duration: 3000
       }).present();
       this.nav.setRoot('HomePage', {email});
-      this.menuCtrl.close();
+      this.connected = true;
       this.activePage();
+      this.menuCtrl.close();
+      this.menuCtrl.open();
     }else {
       this.toast.create({
         message: `Cette adresse mail n'a aucun compte enregistré`,
         duration: 3000
       }).present();
-      this.nav.setRoot('LoginPage')
+      this.nav.setRoot('LoginPage');
     }
     // this.angularFireAuth.auth.signInWithEmailAndPassword(email, password).then((user) => {
     //
@@ -109,9 +113,11 @@ export class MyApp {
              message: "Vous avez bien été déconnecté",
              duration: 3000
            }).present();
-           this.menuCtrl.close();
+           this.nav.setRoot('LoginPage');
+           this.connected = false;
            this.activePage();
-           this.nav.setRoot(LoginPage);
+           this.menuCtrl.close();
+           this.menuCtrl.open();
         })
         .catch((error : any) =>
         {
