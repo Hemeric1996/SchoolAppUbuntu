@@ -1,19 +1,47 @@
-<ion-menu [content]="content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>Menu</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-menu type="overlay" [content]="mycontent" padding side="right">
+  <ion-content (ionchange)="activePage()" *ngIf="!connected">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid>
+      <ion-row fixed justify-content-center align-items-start>
+          <h1>Connectez vous</h1>
+      </ion-row>
+      <ion-row fixed justify-content-center align-items-start>
+        <ion-img src="../assets/imgs/logoschool.png" style="border-radius:50%;height:150px;width:150px;"></ion-img>
+      </ion-row>
+      <ion-row fixed justify-content-center align-items-start>
+        <ion-item>
+          <ion-label for="email" fixed>Email</ion-label>
+          <ion-input id="email" [(ngModel)]="email" type="email"></ion-input>
+        </ion-item>
 
-  <ion-content>
-    <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
-      </button>
-    </ion-list>
+        <ion-item>
+          <ion-label for="pass" fixed>Mot de passe</ion-label>
+          <ion-input id="pass" [(ngModel)]="password" type="password"></ion-input>
+        </ion-item>
+      </ion-row>
+      <ion-row padding justify-content-center align-items-start>
+        <button ion-button color="secondary" outline (click)='login(email, password)'>Login</button>
+      </ion-row>
+    </ion-grid>
   </ion-content>
-
+  <ion-content (ionchange)="activePage()" *ngIf="connected">
+    <ion-refresher (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-grid>
+      <ion-row fixed justify-content-center align-items-start>
+          <h1>Profil</h1>
+      </ion-row>
+      <ion-row fixed justify-content-center align-items-start>
+        <ion-img src="../assets/imgs/logoschool.png" style="border-radius:50%;height:150px;width:150px;"></ion-img>
+      </ion-row>
+      <ion-row padding fixed justify-content-center align-items-start>
+        <button ion-button color="secondary" outline (click)='logout();'>Logout</button>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
 </ion-menu>
 
-<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+<ion-nav #mycontent [root]="rootPage"></ion-nav>
